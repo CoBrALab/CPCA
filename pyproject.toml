@@ -26,10 +26,3 @@ dependencies = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[dependency-groups]
-dev = [
-    "cpca",
-]
-
-[tool.uv.sources]
-cpca = { workspace = true }
