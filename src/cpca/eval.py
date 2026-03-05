@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
 from .utils import closed_form
 
 
@@ -15,7 +14,7 @@ def cosine_similarity(X,Y=None):
     return Sc
 
 
-def gen_report(X,C_prior, Cs, min_prior_sim=None, Dc_W_thresh=None, Dc_C_thresh=None):
+def eval_cpca(X, C_prior, Cs, min_prior_sim=None, Dc_W_thresh=None, Dc_C_thresh=None, gen_report=False):
     '''
     Generate CPCA fitting report, and derive an optimal value for n* using minimal 
     prior similarity threshold, and/or thresholds on Dc_Wnet and/or Dc_Cnet.
@@ -24,7 +23,7 @@ def gen_report(X,C_prior, Cs, min_prior_sim=None, Dc_W_thresh=None, Dc_C_thresh=
     '''
     
     # generate the fitting report
-    Snet_s_l,Snet_t_l,prior_sim_l,Dc_Cnet,Dc_Wnet,R2_s,R2_t = evaluate_fit(X,C_prior,Cs)
+    Snet_s_l,Snet_t_l,prior_sim_l,Dc_Cnet,Dc_Wnet,R2_s,R2_t = cpca_derivatives(X,C_prior,Cs)
 
     prior_sim_l = np.array(prior_sim_l)
     
@@ -32,12 +31,15 @@ def gen_report(X,C_prior, Cs, min_prior_sim=None, Dc_W_thresh=None, Dc_C_thresh=
 
     n_prior = C_prior.shape[1]
     N_max = Cs.shape[1]
-    fig_list = plot_report(n_prior,N_max,n_optim_idx,min_prior_sim,Dc_W_thresh,Dc_C_thresh,prior_sim_l,
-                    Snet_s_l,Snet_t_l,Dc_Cnet,Dc_Wnet,R2_s,R2_t)
+    if gen_report:
+        fig_list = plot_report(n_prior,N_max,n_optim_idx,min_prior_sim,Dc_W_thresh,Dc_C_thresh,prior_sim_l,
+                        Snet_s_l,Snet_t_l,Dc_Cnet,Dc_Wnet,R2_s,R2_t)
+    else:
+        fig_list=None
     return n_optim_idx, fig_list
     
 
-def evaluate_fit(X,C_prior,Cs):
+def cpca_derivatives(X,C_prior,Cs):
     n_prior = C_prior.shape[1]
     N = Cs.shape[1]
     C_prior_ = np.concatenate((C_prior, Cs),axis=1) # expand prior

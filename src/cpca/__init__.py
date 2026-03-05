@@ -3,22 +3,14 @@ CPCA - Complementary Principal Component Analysis
 
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
-# Import main functions from modeling
-from .modeling import cpca, cpca_auto, cpca_quick, spatial_cpca
-# Import report functions if needed
-from .report import (cosine_similarity, evaluate_fit, gen_report, optim_n,
-                     plot_report)
+# Import main functions
+from .decomposition import CPCA, cpca_modeling_
+from .utils import closed_form
 
 __all__ = [
-    "spatial_cpca",
-    "cpca",
-    "cpca_quick",
-    "cpca_auto",
-    cosine_similarity,
-    gen_report,
-    evaluate_fit,
-    optim_n,
-    plot_report,
+    "CPCA",
+    "cpca_modeling_",
+    "closed_form",
 ]
