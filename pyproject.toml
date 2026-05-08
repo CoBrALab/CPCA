@@ -1,7 +1,7 @@
 [project]
-name = "cpca"
+name = "comad"
 version = "0.1.1"
-description = "Complementary principal component analysis (CPCA) for fMRI confound correction."
+description = "Complementary Matrix Decomposition (CoMaD) for spatiotemporal artefact correction."
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [

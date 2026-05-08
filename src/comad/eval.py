@@ -14,16 +14,16 @@ def cosine_similarity(X,Y=None):
     return Sc
 
 
-def eval_cpca(X, C_prior, Cs, min_prior_sim=None, Dc_W_thresh=None, Dc_C_thresh=None, gen_report=False):
+def eval_comad(X, C_prior, Cs, min_prior_sim=None, Dc_W_thresh=None, Dc_C_thresh=None, gen_report=False):
     '''
-    Generate CPCA fitting report, and derive an optimal value for n* using minimal 
+    Generate CoMaD fitting report, and derive an optimal value for n* using minimal 
     prior similarity threshold, and/or thresholds on Dc_Wnet and/or Dc_Cnet.
     If min_prior_sim=None, Dc_t_thresh=None, and Dc_s_thresh=None, then n_optim_idx 
     will be None (no optimal n* is derived).
     '''
     
     # generate the fitting report
-    Snet_s_l,Snet_t_l,prior_sim_l,Dc_Cnet,Dc_Wnet,R2_s,R2_t = cpca_derivatives(X,C_prior,Cs)
+    Snet_s_l,Snet_t_l,prior_sim_l,Dc_Cnet,Dc_Wnet,R2_s,R2_t = comad_derivatives(X,C_prior,Cs)
 
     prior_sim_l = np.array(prior_sim_l)
     
@@ -39,7 +39,7 @@ def eval_cpca(X, C_prior, Cs, min_prior_sim=None, Dc_W_thresh=None, Dc_C_thresh=
     return n_optim_idx, fig_list
     
 
-def cpca_derivatives(X,C_prior,Cs):
+def comad_derivatives(X,C_prior,Cs):
     n_prior = C_prior.shape[1]
     N = Cs.shape[1]
     C_prior_ = np.concatenate((C_prior, Cs),axis=1) # expand prior
@@ -175,7 +175,7 @@ def plot_report(n_prior,N_max,n_optim_idx,min_prior_sim,Dc_W_thresh,Dc_C_thresh,
         ax = axes[0,0]
         ax.plot(np.array(Snet_s_l)[:,prior_idx])
         ax.plot(np.array(Snet_t_l)[:,prior_idx])
-        ax.legend(['Orthogonal CPCA','Non-orthogonal CPCA'], fontsize=12)
+        ax.legend(['Orthogonal CoMaD','Non-orthogonal CoMaD'], fontsize=12)
         ax.set_title('Network amplitude', fontsize=15)
         ax.set_ylabel('L2-norm', fontsize=15)
         ax.set_ylim([0,max(max(np.array(Snet_s_l)[:,prior_idx]),max(np.array(Snet_t_l)[:,prior_idx]))*1.05])
@@ -216,12 +216,12 @@ def plot_report(n_prior,N_max,n_optim_idx,min_prior_sim,Dc_W_thresh,Dc_C_thresh,
         ax.plot(R2_s[:,prior_idx])
         ax.plot(R2_t[:,prior_idx])
         ax.set_ylabel('Redundancy', fontsize=15)
-        ax.set_title('CPCA and network redundancy', fontsize=15)
-        ax.legend(['Orthogonal CPCA','Non-orthogonal CPCA'], fontsize=12, loc='upper right')
+        ax.set_title('CoMaD and network redundancy', fontsize=15)
+        ax.legend(['Orthogonal CoMaD','Non-orthogonal CoMaD'], fontsize=12, loc='upper right')
         ax.set_ylim([0,1])
 
         for i in range(2):
-            axes[1,i].set_xlabel('Number of CPCA components', fontsize=15)
+            axes[1,i].set_xlabel('Number of CoMaD components', fontsize=15)
             plt.setp(axes[0,i].get_xticklabels(), visible=False)
         for ax_ in axes:
             for ax in ax_:

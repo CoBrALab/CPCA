@@ -1,6 +1,6 @@
-# CPCA
+# CoMaD
 
-Complementary principal component analysis (CPCA) for fMRI confound correction.
+Complementary Matrix Decomposition (CoMaD) for spatiotemporal artefact correction.
 
 ## Installation
 
@@ -13,8 +13,8 @@ uv python install 3.9
 uv python pin 3.9
 ```
 
-### Adding CPCA
+### Adding CoMaD
 
 ```bash
-uv add cpca
+uv add comad
 ```
